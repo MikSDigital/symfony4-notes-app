@@ -8,6 +8,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -63,12 +65,26 @@ class User implements UserInterface, \Serializable
      */
     private $roles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="user_id", orphanRemoval=true)
+     */
+    private $userNotes;
+
     public function __construct()
     {
         $this->isActive = true;
         $this->roles = array('ROLE_USER');
+        $this->userNotes = new ArrayCollection();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getUsername()
@@ -168,6 +184,37 @@ class User implements UserInterface, \Serializable
     public function setPassword($password): void
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getUserNotes(): Collection
+    {
+        return $this->userNotes;
+    }
+
+    public function addUserNote(Note $userNote): self
+    {
+        if (!$this->userNotes->contains($userNote)) {
+            $this->userNotes[] = $userNote;
+            $userNote->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserNote(Note $userNote): self
+    {
+        if ($this->userNotes->contains($userNote)) {
+            $this->userNotes->removeElement($userNote);
+            // set the owning side to null (unless already changed)
+            if ($userNote->getUserId() === $this) {
+                $userNote->setUserId(null);
+            }
+        }
+
+        return $this;
     }
 
 

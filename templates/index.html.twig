@@ -1,5 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<p>Page with access only for logged-in users.</p>
+    <p>Page with access only for logged-in users.</p>
+    {% for note in notes %}
+        <div class="note">
+        <textarea>
+        {{ note.content }}
+        </textarea>
+        </div>
+    {% endfor %}
 {% endblock %}
