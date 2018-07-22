@@ -1,0 +1,23 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #252839;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oswald', sans-serif;
+}
+
+form div {
+    margin: 15px;
+}
+
+form label {
+    margin: 15px;
+}

@@ -20,6 +20,7 @@ class DefaultController extends Controller
      */
     public function homepage()
     {
-        return new Response('Nice website');
+        return $this->render('index.html.twig');
     }
+
 }

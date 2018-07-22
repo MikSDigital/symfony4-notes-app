@@ -152,7 +152,7 @@ class User implements UserInterface, \Serializable
     public function getPlainPassword()
     {
         return $this->plainPassword;
-    }s
+    }
 
     /**
      * @param mixed $plainPassword

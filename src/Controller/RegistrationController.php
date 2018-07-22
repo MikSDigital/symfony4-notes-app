@@ -58,6 +58,6 @@ class RegistrationController extends Controller
      */
     public function profile()
     {
-        return new Response("Welcome in your profile");
+        return $this->render('index.html.twig');
     }
 }
