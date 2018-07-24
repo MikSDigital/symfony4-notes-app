@@ -11,6 +11,9 @@ namespace App\Controller;
 
 use App\Entity\Note;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class NoteController extends Controller
@@ -20,11 +23,11 @@ class NoteController extends Controller
      */
     public function homepage()
     {
-        $user_id = $this->getUser()->getId();
+        $userId = $this->getUser()->getId();
         $notes = $this->getDoctrine()
             ->getRepository(Note::class)
             ->findBy([
-                'user_id' => $user_id
+                'user_id' => $userId
             ]);
         if (!$notes) {
             throw $this->createNotFoundException(
@@ -33,7 +36,44 @@ class NoteController extends Controller
         }
 
         return $this->render('index.html.twig', [
-            'notes' => $notes
+            'notes' => $notes,
         ]);
     }
+
+
+    /**
+     * @Route("/save", name="save_note")
+     */
+    public function saveNote(Request $request)
+    {
+
+        $userId = $this->getUser()->getId();
+
+        $id = (int)$request->request->get('id');
+        $noteContent = $request->request->get('content');
+
+//        return new JsonResponse(array(
+//            'id' => $id,
+//            'content' => $noteContent,
+//
+//        ));
+
+        $note = $this->getDoctrine()
+            ->getRepository(Note::class)
+            ->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+
+        if (!$note) {
+            throw $this->createNotFoundException(
+                'Not found note!'
+            );
+        }
+        $note->setContent($noteContent);
+        $em->persist($note);
+        $em->flush();
+
+        return new Response();
+    }
+
 }

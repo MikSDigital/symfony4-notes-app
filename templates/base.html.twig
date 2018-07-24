@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
         <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
-        {% endblock %}
-    </head>
-    <body>
-    <a href="/logout">Logout</a>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+              integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+    {% endblock %}
+</head>
+<body>
+<a href="/logout">Logout</a>
+{% block body %}{% endblock %}
+{% block javascripts %}
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+{% endblock %}
+</body>
 </html>
