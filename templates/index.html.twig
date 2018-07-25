@@ -1,14 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <p>Page with access only for logged-in users.</p>
-    <div class="notes">
-    {% for note in notes %}
-        <div class="note">
-        <textarea class="note-content">{{ note.content }}</textarea>
-            <input type="hidden" name="id" class="note-id" value="{{ note.id }}" />
+    <div class="wrapper">
+        <aside class="notes-snippet">
+            {% set id = 0 %}
+            {% for note in notes %}
+                <div class="note-snippet note-item-{{ id }}">{{ note.content }}</div>
+                {% set id = id + 1 %}
+            {% endfor %}
+        </aside>
+        <div class="notes">
+            {% for note in notes %}
+                <div class="note">
+                    <textarea class="note-content">{{ note.content }}</textarea>
+                    <input type="hidden" name="id" class="note-id" value="{{ note.id }}"/>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
     </div>
 {% endblock %}
 

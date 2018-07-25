@@ -11,7 +11,6 @@ namespace App\Controller;
 
 use App\Entity\Note;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,19 +23,21 @@ class NoteController extends Controller
     public function homepage()
     {
         $userId = $this->getUser()->getId();
-        $notes = $this->getDoctrine()
+        $note = $this->getDoctrine()
             ->getRepository(Note::class)
             ->findBy([
                 'user_id' => $userId
             ]);
-        if (!$notes) {
+        if (!$note) {
             throw $this->createNotFoundException(
                 'Notes not found'
             );
         }
 
+        $this->denyAccessUnlessGranted('view', $note);
+
         return $this->render('index.html.twig', [
-            'notes' => $notes,
+            'notes' => $note,
         ]);
     }
 
@@ -52,11 +53,6 @@ class NoteController extends Controller
         $id = (int)$request->request->get('id');
         $noteContent = $request->request->get('content');
 
-//        return new JsonResponse(array(
-//            'id' => $id,
-//            'content' => $noteContent,
-//
-//        ));
 
         $note = $this->getDoctrine()
             ->getRepository(Note::class)
@@ -69,6 +65,9 @@ class NoteController extends Controller
                 'Not found note!'
             );
         }
+
+        $this->denyAccessUnlessGranted('edit', $note);
+
         $note->setContent($noteContent);
         $em->persist($note);
         $em->flush();

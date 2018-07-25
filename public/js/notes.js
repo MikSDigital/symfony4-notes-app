@@ -1,25 +1,36 @@
 
 $(document).ready(function () {
 
-    let timer;
+$(".note-snippet").click(function () {
+    let id = $(this).attr('class').match(/\d+/);
+    let selectedNote = $('.notes').children().eq(id);
+    $('.note').hide();
+    selectedNote.show();
+    console.log(selectedNote);
+});
 
+
+    let timer;
     $(".note-content").keyup(function () {
+        if(!$(this).prev().length) {
+            $(this).before('<div class="saving-note"><p><i class="fa fa-spinner fa-spin"></i> Saving...</p></div>');
+        }
+
         const $this = $(this);
         clearTimeout(timer);
 
         timer = setTimeout(function () {
 
             let content = $this.val();
+            content = content.trim();
             let id = $this.next().val();
+            $this.prev().remove();
             $.ajax({
             type: "POST",
             contentType: 'application/x-www-form-urlencoded',
             dataType: 'json',
             url: "/save",
             data: {content: content, id : id},
-            success: function (data) {
-                console.log(data);
-            },
         });
 
         }, 2000);
@@ -30,47 +41,5 @@ $(".note-content").on("keydown", function () {
     clearTimeout(timer);
 });
 
-function displaySpinner() {
-    $('.note-content').before('<i class="fa fa-spinner fa-spin"></i>');
-}
-displaySpinner();
+
 });
-
-
-
-// var typingTimer;
-// var doneTypingInterval = 2000;
-//
-// //on keyup, start the countdown
-// $('.note-content').on("keyup", function () {
-//     if (typingTimer) clearTimeout(typingTimer);
-//     let content = $(this).val();
-//     let id = $(this).next().val();
-//     typingTimer = setTimeout(doneTyping(content, id), doneTypingInterval);
-// });
-//
-// //on keydown, clear the countdown
-// $('.note-content').on("keydown", function () {
-//     clearTimeout(typingTimer);
-// });
-//
-// //user is "finished typing
-// function doneTyping(content, id) {
-//     id = id;
-//
-//     // id = $("#note-content").next().val();
-//      content = content;
-//
-//     $.ajax({
-//         type: "POST",
-//         contentType: 'application/x-www-form-urlencoded',
-//         dataType: 'json',
-//         url: "/save",
-//         data: {content: content, id : id},
-//         success: function (data) {
-//             console.log(data);
-//         },
-//     });
-//
-// }
-

@@ -27,6 +27,8 @@ class Note
      */
     private $content;
 
+    private $private;
+
     public function getId()
     {
         return $this->id;
@@ -54,5 +56,10 @@ class Note
         $this->content = $content;
 
         return $this;
+    }
+
+    public function isPrivate()
+    {
+        return true;
     }
 }
