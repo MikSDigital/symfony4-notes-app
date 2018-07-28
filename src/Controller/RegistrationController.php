@@ -23,6 +23,12 @@ class RegistrationController extends Controller
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+
+        if ($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+
+            return $this->redirectToRoute('homepage');
+        }
+
         // 1) build the form
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -43,7 +49,7 @@ class RegistrationController extends Controller
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
 
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render(
@@ -53,11 +59,4 @@ class RegistrationController extends Controller
     }
 
 
-    /**
-      * @Route("dashboard", name="dashboard")
-     */
-    public function profile()
-    {
-        return $this->render('index.html.twig');
-    }
 }

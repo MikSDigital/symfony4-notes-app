@@ -3,6 +3,7 @@
 {% block body %}
     <div class="wrapper">
         <aside class="notes-snippet">
+            <div class="saving-note"><p></p></div>
             {% set id = 0 %}
             {% for note in notes %}
                 <div class="note-snippet note-item-{{ id }}">{{ note.content }}</div>

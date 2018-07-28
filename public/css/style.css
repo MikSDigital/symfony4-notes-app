@@ -26,8 +26,10 @@ form label {
 
 textarea {
     resize: horizontal;
-    height: 400px;
     width: 99%;
+    height: 100vh;
+    font-size: 17px;
+    padding: 30px;
 }
 
 .wrapper {
@@ -36,9 +38,22 @@ textarea {
     grid-template-rows: auto;
 }
 
+.saving-note {
+    background: #fadc61;
+    height: 40px;
+    color: red;
+    font-size: 16px;
+    position: sticky;
+    top: 10px;
+}
+
+
+.saving-note p {
+    padding-top: 8px;
+}
+
 .notes-snippet {
     grid-column: 1;
-    background: #f2b632;
     color: white;
 }
 
@@ -57,12 +72,25 @@ textarea {
 
 .notes {
     grid-column: 2;
+    position: fixed;
+    top: 0;
+    right: 20px;
+    width: 77vw;
+    height: 100vh;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+span.saving {
+    color: red;
+}
+
+span.saved {
+    color: green;
 }
 
 .note ~.note {
     display: none;
 }
 
-.saving-note {
-    font-size: 11px;
-}

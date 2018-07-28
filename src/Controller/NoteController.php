@@ -10,6 +10,8 @@ namespace App\Controller;
 
 
 use App\Entity\Note;
+use App\Repository\NoteRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,26 +20,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class NoteController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="homepage", methods={"GET"})
+     * @Security("is_granted('ROLE_USER')", statusCode=404, message="Resource not found.")
+     * @param NoteRepository $notes
+     * @return Response
      */
-    public function homepage()
+    public function homepage(NoteRepository $notes): Response
     {
-        $userId = $this->getUser()->getId();
-        $note = $this->getDoctrine()
-            ->getRepository(Note::class)
-            ->findBy([
-                'user_id' => $userId
-            ]);
-        if (!$note) {
-            throw $this->createNotFoundException(
-                'Notes not found'
-            );
-        }
-
-        $this->denyAccessUnlessGranted('view', $note);
+        $userId = $this->getUser();
+        $authorNotes = $notes->findBy(
+            ['user_id' => $userId]
+        );
 
         return $this->render('index.html.twig', [
-            'notes' => $note,
+            'notes' => $authorNotes,
         ]);
     }
 
@@ -66,7 +62,6 @@ class NoteController extends Controller
             );
         }
 
-        $this->denyAccessUnlessGranted('edit', $note);
 
         $note->setContent($noteContent);
         $em->persist($note);
@@ -74,5 +69,14 @@ class NoteController extends Controller
 
         return new Response();
     }
+
+
+//    /**
+//     * @Route("/share/{id}", requirements={"id" = "\d+"} name="share_note")
+//     */
+//    public function share($id)
+//    {
+//
+//    }
 
 }

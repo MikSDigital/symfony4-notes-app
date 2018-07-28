@@ -58,8 +58,4 @@ class Note
         return $this;
     }
 
-    public function isPrivate()
-    {
-        return true;
-    }
 }
