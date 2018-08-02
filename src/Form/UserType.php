@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: KRÓL ŻYCIA
- * Date: 21.07.2018
- * Time: 13:24
- */
 
 namespace App\Form;
 

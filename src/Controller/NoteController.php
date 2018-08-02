@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: KRÓL ŻYCIA
- * Date: 22.07.2018
- * Time: 13:53
- */
 
 namespace App\Controller;
 
@@ -36,7 +30,7 @@ class NoteController extends Controller
             ['user_id' => $userId]
         );
 
-        $forms = array();
+        $forms = [];
 
         foreach ($authorNotes as $note) {
             $forms[] = $this->createForm(NoteShareType::class, $note)->createView();

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: KRÓL ŻYCIA
- * Date: 21.07.2018
- * Time: 15:50
- */
 
 namespace App\Controller;
 
@@ -20,7 +14,7 @@ class LoginController extends Controller
     /**
      * @Route("/login", name="login")
      */
-    public function login(AuthenticationUtils $authenticationUtils) : Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
 
         if ($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
