@@ -29,6 +29,11 @@ class Note
 
     private $private;
 
+    /**
+     * @ORM\Column(type="string", length=180, nullable=true)
+     */
+    private $url;
+
     public function getId()
     {
         return $this->id;
@@ -54,6 +59,18 @@ class Note
     public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }

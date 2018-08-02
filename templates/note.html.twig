@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="wrapper">
+        <div class="notes">
+            {% if note %}
+                <div class="note">
+                    <textarea>{{ note.content }}</textarea>
+                </div>
+                {% else %}
+                <p>Note not found! Probably URL of the note has been changed!</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

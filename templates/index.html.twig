@@ -3,6 +3,7 @@
 {% block body %}
     <div class="wrapper">
         <aside class="notes-snippet">
+            <a href="/logout">Logout</a>
             <div class="saving-note"><p></p></div>
             {% set id = 0 %}
             {% for note in notes %}
@@ -10,6 +11,18 @@
                 {% set id = id + 1 %}
             {% endfor %}
         </aside>
+        <div class="share-area">
+            {% set index = 0 %}
+            {% for form in forms %}
+                <div class="share-form form-{{ index }}">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
+                    {% set index = index + 1 %}
+                </div>
+            {% endfor %}
+            <p class="share-info"></p>
+        </div>
         <div class="notes">
             {% for note in notes %}
                 <div class="note">
