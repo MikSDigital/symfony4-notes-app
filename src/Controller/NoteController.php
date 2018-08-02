@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Note;
 use App\Form\NoteShareType;
 use App\Repository\NoteRepository;
+use App\Service\UrlGenerator;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -85,7 +86,7 @@ class NoteController extends Controller
     /**
      * @Route("/share", name="share_note")
      */
-    public function shareNote(Request $request, NoteRepository $noteRepository)
+    public function shareNote(Request $request, NoteRepository $noteRepository, UrlGenerator $urlGenerator)
     {
 
         $userId = $this->getUser();
@@ -111,14 +112,7 @@ class NoteController extends Controller
             while ($noteRepository->findOneBy(
                     ['url' => $title]
                 ) !== null) {
-
-                try {
-                    $random = random_int(1, 999);
-                    $title = preg_replace('/\s+/', '-', $input);
-                    $title .= $random;
-                } catch (Exception $e) {
-                    $this->get('logger')->error($e->getMessage());
-                }
+                $title = $urlGenerator->urlGenerate($input, $title);
             }
 
             $note->setUrl($title);
